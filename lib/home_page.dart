@@ -1,3 +1,4 @@
+import 'package:contact_application/contact_view.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -42,24 +43,90 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           shrinkWrap: true,
-          children: const [
-            Padding(
+          children: [
+            const Padding(
               padding: EdgeInsets.only(left: 16),
               child: Text(
                 'Recent',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
               ),
             ),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundImage: AssetImage('assets/pic.jpeg'),
+            ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return  ListTile(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                      return ContactView();
+                    }));
+
+                  },
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage('assets/pic.jpeg'),
+                  ),
+                  title: Text(
+                    'Bright Software',
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                  ),
+                  subtitle: Text('+233 54 025 5889'),
+                  trailing: Icon(
+                    Icons.more_horiz,
+                    size: 30,
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const Divider();
+              },
+              itemCount: 3,
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                'Contacts',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
               ),
-              title: Text('Bright Software'),
-              subtitle: Text('+233 54 025 5889'),
-              trailing: Icon(Icons.more_horiz),
-            )
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                'A',
+                textAlign: TextAlign.right,
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+              ),
+            ),
+            ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return const ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage('assets/pic.jpeg'),
+                    ),
+                    title: Text(
+                      'Bright Software',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                    ),
+                    subtitle: Text('+233 54 025 5889'),
+                    trailing: Icon(
+                      Icons.more_horiz,
+                      size: 30,
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 8,
+                  );
+                },
+                itemCount: 2)
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add, size: 30,),
+        onPressed: () {},
+        backgroundColor: Colors.black,
       ),
     );
   }
