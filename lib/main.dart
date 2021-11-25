@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       title: 'Contact App',
       theme: ThemeData(),
-      home: const HomePage(),
+      home:  HomePage(),
     );
   }
 }
