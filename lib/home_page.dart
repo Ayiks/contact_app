@@ -2,7 +2,45 @@ import 'package:contact_application/contact_view.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+
+  final List<Map<String, String>> data = [
+    {
+      "name": "Regan Kwame",
+      "phone": "+233 254 506 258",
+      "email": "someone@example.com",
+      "country": "Ghana",
+      "region": "Koforidua"
+    },
+    {
+      "name": "Attah Adwoa",
+      "phone": "+233 250 506 208",
+      "email": "adwoaattah@gmail.com",
+      "country": "Ghana",
+      "region": "Kumasi"
+    },
+    {
+      "name": "Abdul Ayew",
+      "phone": "+233 254 506 258",
+      "email": "abdul@gmail.com",
+      "country": "Ghana",
+      "region": "Nima"
+    },
+    {
+      "name": "John Doe",
+      "phone": "+441 254 325 258",
+      "email": "someone@example.com",
+      "country": "Togo",
+      "region": "Lome"
+    },
+    {
+      "name": "Waslaw",
+      "phone": "+550 778 506 2589",
+      "email": "1213@yahoo.com",
+      "country": "China",
+      "region": "Beijin"
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +92,12 @@ class HomePage extends StatelessWidget {
             ListView.separated(
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
-                return  ListTile(
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                return ListTile(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
                       return ContactView();
                     }));
-
                   },
                   leading: CircleAvatar(
                     backgroundImage: AssetImage('assets/pic.jpeg'),
@@ -124,7 +162,10 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add, size: 30,),
+        child: const Icon(
+          Icons.add,
+          size: 30,
+        ),
         onPressed: () {},
         backgroundColor: Colors.black,
       ),
