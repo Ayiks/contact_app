@@ -1,5 +1,8 @@
 import 'package:contact_application/contact_view.dart';
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
+
+import 'contact_model.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -96,10 +99,17 @@ class HomePage extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return ContactView();
+                      return ContactView(
+                        contact: Contact(
+                            name: "Bright Software",
+                            phone: "+233 254 023 5555",
+                            email: "example@someone.com",
+                            country: "China",
+                            region: "Nungua"),
+                      );
                     }));
                   },
-                  leading: CircleAvatar(
+                  leading: const CircleAvatar(
                     backgroundImage: AssetImage('assets/pic.jpeg'),
                   ),
                   title: Text(
@@ -125,39 +135,51 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text(
-                'A',
-                textAlign: TextAlign.right,
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+            GroupedListView<Map<String, String>, String>(
+              shrinkWrap: true,
+              elements: data,
+              groupBy: (element) => element['name'].toString().substring(0, 1),
+              groupSeparatorBuilder: (String groupByValue) => SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(
+                    groupByValue,
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                ),
               ),
+              itemBuilder: (context, Map<String, String> element) {
+                Contact contact = Contact.fromJson(element);
+                return Column(
+                  children: [
+                    ListTile(
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return ContactView(contact: contact);
+                        }));
+                      },
+                      leading: CircleAvatar(
+                        backgroundImage: AssetImage('assets/avatar.png'),
+                      ),
+                      title: Text(
+                        '${element['name']}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
+                      ),
+                      subtitle: Text('${element['phone']}'),
+                    ),
+                    const Divider(),
+                  ],
+                );
+              },
+              itemComparator: (item1, item2) =>
+                  item1['name']!.compareTo(item2['name']!),
+              order: GroupedListOrder.ASC,
             ),
-            ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return const ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage('assets/pic.jpeg'),
-                    ),
-                    title: Text(
-                      'Bright Software',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
-                    ),
-                    subtitle: Text('+233 54 025 5889'),
-                    trailing: Icon(
-                      Icons.more_horiz,
-                      size: 30,
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 8,
-                  );
-                },
-                itemCount: 2)
           ],
         ),
       ),
